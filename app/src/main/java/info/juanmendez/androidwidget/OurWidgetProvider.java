@@ -1,21 +1,19 @@
 package info.juanmendez.androidwidget;
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
-
 import java.util.Random;
-
 import timber.log.Timber;
-
 
 /**
  * Created by Juan Mendez on 5/8/2017.
  * www.juanmendez.info
  * contact@juanmendez.info
+ *
+ * Upon updating one widget, you get all other instance display the same string value
  */
 public class OurWidgetProvider extends AppWidgetProvider {
 
@@ -29,7 +27,6 @@ public class OurWidgetProvider extends AppWidgetProvider {
             updateWidget( context, appWidgetManager, appWidgetIds[i], appWidgetIds, randomInt );
         }
     }
-
 
     private void updateWidget( Context ctxt, AppWidgetManager mgr, int appWidgetId, int[] appWidgetIds, int randomInt ){
 
