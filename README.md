@@ -1,6 +1,7 @@
-Each widget updates itself
+Each widget updates itself, MainActivity is also doing updates
 ---------------
-- Making sure we provide OurWidgetProvider.onReceive
-- Widget button has an intent having `EXTRA_APPWIDGET_ID` as extra
-- PendingIntent has `widgetId` instead of just zero
+- `MainActivity` allows user to enter a numeric value which is added as extra to an intent sent using `sendBroadcast`
+- `OurWidgetProvider.onReceive()` checks for the extra value, and sends it as fourth parameter in `updateWidget()`
+- `OurWidgetProvider.updateWidget()` checks if the value is zero, then it comes with a random value; otherwise, it prints what's being given
+
 
