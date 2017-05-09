@@ -5,16 +5,10 @@
     android:layout_height="match_parent"
     android:padding="@dimen/widget_margin">
 
-    <TextView
-        android:id="@+id/textView"
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="000"
-        android:textColor="@color/colorAccent"
-        android:textSize="@dimen/abc_text_size_large_material"
-        android:textStyle="bold" />
+        android:layout_height="1dp" android:layout_weight="1"></ListView>
 
     <Button
         android:id="@+id/actionButton"
