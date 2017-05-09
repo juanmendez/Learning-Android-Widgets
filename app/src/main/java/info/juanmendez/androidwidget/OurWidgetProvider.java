@@ -18,33 +18,33 @@ public class OurWidgetProvider extends AppWidgetProvider {
     public static String EXTRA_WORD= "com.commonsware.android.appwidget.lorem.WORD";
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
+    public void onReceive(Context ctxt, Intent intent) {
+        super.onReceive(ctxt, intent);
     }
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    public void onUpdate(Context ctxt, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         for( int i = 0; i < appWidgetIds.length; i++ ) {
-            updateWidget( context, appWidgetManager, appWidgetIds[i]);
+            updateWidget( ctxt, appWidgetManager, appWidgetIds[i]);
         }
 
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
+        super.onUpdate(ctxt, appWidgetManager, appWidgetIds);
     }
 
-    private void updateWidget( Context context, AppWidgetManager appWidgetManager, int appWidgetId ){
+    private void updateWidget( Context ctxt, AppWidgetManager appWidgetManager, int appWidgetId ){
 
-        Intent clickIntent = new Intent(context, MainActivity.class);
-        PendingIntent clickPI = PendingIntent.getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent clickIntent = new Intent(ctxt, MainActivity.class);
+        PendingIntent clickPI = PendingIntent.getActivity(ctxt, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent serviceIntent;
 
         if( appWidgetId > 0 ){
 
-            serviceIntent = new Intent(context, WidgetService.class);
+            serviceIntent = new Intent(ctxt, WidgetService.class);
             serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
-            RemoteViews widget = new RemoteViews(context.getPackageName(), R.layout.widget_demo);
+            RemoteViews widget = new RemoteViews(ctxt.getPackageName(), R.layout.widget_demo);
             widget.setRemoteAdapter(R.id.listView, serviceIntent);
             widget.setPendingIntentTemplate(R.id.listView, clickPI);
 
