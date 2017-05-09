@@ -22,8 +22,7 @@ public class OurWidgetProvider extends AppWidgetProvider {
 
             updateWidget(context,
                     AppWidgetManager.getInstance(context),
-                    intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1),
-                    intent.getIntExtra(MainActivity.RANDOM_INT, 0 ));
+                    intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1) );
         }
         else {
             super.onReceive(context, intent);
@@ -36,17 +35,16 @@ public class OurWidgetProvider extends AppWidgetProvider {
         final int count = appWidgetIds.length;
 
         for (int i = 0; i < count; i++) {
-            updateWidget( context, appWidgetManager, appWidgetIds[i], 0 );
+            updateWidget( context, appWidgetManager, appWidgetIds[i] );
         }
     }
 
 
-    private void updateWidget( Context ctxt, AppWidgetManager mgr, int appWidgetId, int randomInt ){
+    private void updateWidget( Context ctxt, AppWidgetManager mgr, int appWidgetId ){
 
         if( appWidgetId > 0 ){
 
-            if( randomInt < 1 )
-                randomInt = (new Random().nextInt(900) + 100);
+            int randomInt = (new Random().nextInt(900) + 100);
 
             String randomNumber = String.format("%03d", randomInt );
 
