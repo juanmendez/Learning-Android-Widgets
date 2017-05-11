@@ -24,11 +24,6 @@ public class AppModule {
     }
 
     @Provides
-    public WidgetApp providesApp(){
-        return this.app;
-    }
-
-    @Provides
     @Singleton
     public ArrayList<String> getItems(){
         return new ArrayList<>();
