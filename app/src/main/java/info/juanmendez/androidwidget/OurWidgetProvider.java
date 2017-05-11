@@ -17,10 +17,6 @@ public class OurWidgetProvider extends AppWidgetProvider {
 
     public static String EXTRA_WORD= "com.commonsware.android.appwidget.lorem.WORD";
 
-    @Override
-    public void onReceive(Context ctxt, Intent intent) {
-        super.onReceive(ctxt, intent);
-    }
 
     @Override
     public void onUpdate(Context ctxt, AppWidgetManager appWidgetManager, int[] appWidgetIds) {

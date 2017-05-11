@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import java.util.ArrayList;
+
+import timber.log.Timber;
+
 /**
  * Created by Juan Mendez on 5/8/2017.
  * www.juanmendez.info
@@ -15,11 +19,7 @@ import android.widget.RemoteViewsService;
 
 public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    private static final String[] items= { "lorem", "ipsum", "dolor",
-            "sit", "amet", "consectetuer", "adipiscing", "elit", "morbi",
-            "vel", "ligula", "vitae", "arcu", "aliquet", "mollis", "etiam",
-            "vel", "erat", "placerat", "ante", "porttitor", "sodales",
-            "pellentesque", "augue", "purus" };
+    private static ArrayList<String> items= new ArrayList<>();
 
     private Context ctxt;
     private int widgetId;
@@ -27,6 +27,11 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
     public WidgetViewsFactory(Context ctxt, Intent intent) {
         this.ctxt = ctxt;
         widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        items = WidgetApp.getItems();
+
+        WidgetApp.getSubject().subscribe(integer -> {
+            Timber.i( "current thread " + Thread.currentThread().getName());
+        });
     }
 
     @Override
@@ -46,7 +51,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public int getCount() {
-        return items.length;
+        return items.size();
     }
 
     @Override
@@ -54,12 +59,12 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
         RemoteViews row=
                 new RemoteViews(ctxt.getPackageName(), R.layout.row);
 
-        row.setTextViewText(android.R.id.text1, items[i]);
+        row.setTextViewText(android.R.id.text1, items.get(i));
 
         Intent intent=new Intent();
         Bundle extras=new Bundle();
 
-        extras.putString(OurWidgetProvider.EXTRA_WORD, items[i]);
+        extras.putString(OurWidgetProvider.EXTRA_WORD, items.get(i));
         extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         intent.putExtras(extras);
         row.setOnClickFillInIntent(android.R.id.text1, intent);
