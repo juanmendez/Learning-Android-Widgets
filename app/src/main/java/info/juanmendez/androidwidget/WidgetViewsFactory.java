@@ -9,6 +9,8 @@ import android.widget.RemoteViewsService;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import timber.log.Timber;
 
 /**
@@ -19,39 +21,37 @@ import timber.log.Timber;
 
 public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    private static ArrayList<String> items= new ArrayList<>();
-
     private Context ctxt;
     private int widgetId;
 
+    @Inject
+    ArrayList<String> thoseItems;
+
     public WidgetViewsFactory(Context ctxt, Intent intent) {
         this.ctxt = ctxt;
-        widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        items = WidgetApp.getItems();
+        WidgetApp.getAppComponent().inject( this );
 
-        WidgetApp.getSubject().subscribe(integer -> {
-            Timber.i( "current thread " + Thread.currentThread().getName());
-        });
+        widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
     @Override
     public void onCreate() {
-
+        Timber.i("onCreate");
     }
 
     @Override
     public void onDataSetChanged() {
-
+        Timber.i("onDataSetChanged");
     }
 
     @Override
     public void onDestroy() {
-
+        Timber.i("onDestroy");
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return thoseItems.size();
     }
 
     @Override
@@ -59,12 +59,12 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
         RemoteViews row=
                 new RemoteViews(ctxt.getPackageName(), R.layout.row);
 
-        row.setTextViewText(android.R.id.text1, items.get(i));
+        row.setTextViewText(android.R.id.text1, thoseItems.get(i));
 
         Intent intent=new Intent();
         Bundle extras=new Bundle();
 
-        extras.putString(OurWidgetProvider.EXTRA_WORD, items.get(i));
+        extras.putString(OurWidgetProvider.EXTRA_WORD, thoseItems.get(i));
         extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         intent.putExtras(extras);
         row.setOnClickFillInIntent(android.R.id.text1, intent);
@@ -74,11 +74,13 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public RemoteViews getLoadingView() {
+        Timber.i("");
         return null;
     }
 
     @Override
     public int getViewTypeCount() {
+        Timber.i("");
         return 1;
     }
 

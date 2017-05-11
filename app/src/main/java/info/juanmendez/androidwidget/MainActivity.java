@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import javax.inject.Inject;
 
 /**
  * Activity is able to update the list which is used by the widgets
@@ -16,21 +20,31 @@ public class MainActivity extends AppCompatActivity {
     Button submit;
     EditText desiredValue;
 
+    @Inject
+    ArrayList<String> thoseItems;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        WidgetApp.getAppComponent().inject( this );
+
+
+        String word=getIntent().getStringExtra(OurWidgetProvider.EXTRA_WORD);
+
+        if (word != null) {
+            Toast.makeText(this, "received: " + word, Toast.LENGTH_LONG ).show();
+        }
+
 
         submit = (Button) findViewById(R.id.submit);
         desiredValue = (EditText) findViewById(R.id.desiredValue);
-
-
 
         ComponentName componentName = new ComponentName( this, OurWidgetProvider.class);
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
 
         submit.setOnClickListener(view -> {
-            WidgetApp.addItem( desiredValue.getText().toString() );
+            thoseItems.add( desiredValue.getText().toString() );
 
             int[] widgetIds = appWidgetManager.getAppWidgetIds(componentName);
             appWidgetManager.notifyAppWidgetViewDataChanged( widgetIds, R.id.listView );
