@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 /**
  * Activity is able to update the list which is used by the widgets
- * @see https://goo.gl/vZ3wzs
+ * @see //goo.gl/vZ3wzs
  */
 public class MainActivity extends AppCompatActivity {
 
