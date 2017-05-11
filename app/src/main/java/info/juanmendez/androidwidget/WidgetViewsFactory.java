@@ -25,7 +25,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
     private int widgetId;
 
     @Inject
-    ArrayList<String> thoseItems;
+    ArrayList<Country> thoseItems;
 
     public WidgetViewsFactory(Context ctxt, Intent intent) {
         this.ctxt = ctxt;
@@ -59,12 +59,12 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
         RemoteViews row=
                 new RemoteViews(ctxt.getPackageName(), R.layout.row);
 
-        row.setTextViewText(android.R.id.text1, thoseItems.get(i));
+        row.setTextViewText(android.R.id.text1, thoseItems.get(i).getCountry());
 
         Intent intent=new Intent();
         Bundle extras=new Bundle();
 
-        extras.putString(OurWidgetProvider.EXTRA_WORD, thoseItems.get(i));
+        extras.putString(OurWidgetProvider.EXTRA_WORD, thoseItems.get(i).getCountry());
         extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         intent.putExtras(extras);
         row.setOnClickFillInIntent(android.R.id.text1, intent);

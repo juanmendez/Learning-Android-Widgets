@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import info.juanmendez.androidwidget.Country;
 import info.juanmendez.androidwidget.WidgetApp;
 
 /**
@@ -24,8 +25,13 @@ public class AppModule {
     }
 
     @Provides
+    public WidgetApp providesApp(){
+        return this.app;
+    }
+
+    @Provides
     @Singleton
-    public ArrayList<String> getItems(){
+    public ArrayList<Country> getItems(){
         return new ArrayList<>();
     }
 }

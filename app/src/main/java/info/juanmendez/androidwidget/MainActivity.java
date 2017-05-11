@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     EditText desiredValue;
 
     @Inject
-    ArrayList<String> thoseItems;
+    ArrayList<Country> thoseItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
 
         submit.setOnClickListener(view -> {
-            thoseItems.add( desiredValue.getText().toString() );
+            thoseItems.add( new Country(0, desiredValue.getText().toString()) );
 
             int[] widgetIds = appWidgetManager.getAppWidgetIds(componentName);
             appWidgetManager.notifyAppWidgetViewDataChanged( widgetIds, R.id.listView );
