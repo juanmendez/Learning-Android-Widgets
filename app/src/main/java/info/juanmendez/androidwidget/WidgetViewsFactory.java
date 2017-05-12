@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import java.util.ArrayList;
-
 import javax.inject.Inject;
 
+import info.juanmendez.androidwidget.models.Country;
+import io.realm.RealmList;
 import timber.log.Timber;
 
 /**
@@ -25,12 +25,12 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
     private int widgetId;
 
     @Inject
-    ArrayList<Country> thoseItems;
+    RealmList<Country> thoseItems;
 
     public WidgetViewsFactory(Context ctxt, Intent intent) {
         this.ctxt = ctxt;
-        WidgetApp.getAppComponent().inject( this );
 
+        WidgetApp.getAppComponent().inject( this );
         widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
@@ -41,7 +41,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public void onDataSetChanged() {
-        Timber.i("onDataSetChanged");
+        Timber.i( "thread onDataSetChanged " + Thread.currentThread().getName() );
     }
 
     @Override
@@ -59,12 +59,12 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
         RemoteViews row=
                 new RemoteViews(ctxt.getPackageName(), R.layout.row);
 
-        row.setTextViewText(android.R.id.text1, thoseItems.get(i).getCountry());
+        row.setTextViewText(android.R.id.text1, thoseItems.get(i).getName());
 
         Intent intent=new Intent();
         Bundle extras=new Bundle();
 
-        extras.putString(OurWidgetProvider.EXTRA_WORD, thoseItems.get(i).getCountry());
+        extras.putString(OurWidgetProvider.EXTRA_WORD, thoseItems.get(i).getName());
         extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         intent.putExtras(extras);
         row.setOnClickFillInIntent(android.R.id.text1, intent);

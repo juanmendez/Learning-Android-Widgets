@@ -1,4 +1,4 @@
-package info.juanmendez.androidwidget.storage;
+package info.juanmendez.androidwidget.dependencies;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -14,7 +14,6 @@ import io.realm.RealmConfiguration;
  * www.juanmendez.info
  * contact@juanmendez.info
  */
-
 @Singleton
 public class RealmProvider {
 
@@ -40,7 +39,14 @@ public class RealmProvider {
     }
 
     public int getNextPrimaryKey( Class clazz, String idField ){
-        AtomicInteger primaryKeyValue = new AtomicInteger(realm.where(clazz).max(idField).intValue());
-        return primaryKeyValue.incrementAndGet();
+
+        int next = 1;
+
+        try {
+            AtomicInteger primaryKeyValue = new AtomicInteger(realm.where(clazz).max(idField).intValue());
+            return primaryKeyValue.incrementAndGet();
+        } catch (Exception e) {
+            return next;
+        }
     }
 }

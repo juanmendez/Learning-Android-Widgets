@@ -1,13 +1,12 @@
 package info.juanmendez.androidwidget.module;
 
-import java.util.ArrayList;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import info.juanmendez.androidwidget.Country;
+import info.juanmendez.androidwidget.models.Country;
 import info.juanmendez.androidwidget.WidgetApp;
+import io.realm.RealmList;
 
 /**
  * Created by Juan Mendez on 5/10/2017.
@@ -31,7 +30,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public ArrayList<Country> getItems(){
-        return new ArrayList<>();
+    public RealmList<Country> getItems(){
+        return new RealmList<>();
     }
 }
