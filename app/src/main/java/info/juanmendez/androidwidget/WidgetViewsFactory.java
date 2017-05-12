@@ -25,7 +25,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
     private int widgetId;
 
     @Inject
-    RealmList<Country> thoseItems;
+    RealmList<Country> countries;
 
     public WidgetViewsFactory(Context ctxt, Intent intent) {
         this.ctxt = ctxt;
@@ -51,7 +51,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public int getCount() {
-        return thoseItems.size();
+        return countries.size();
     }
 
     @Override
@@ -59,12 +59,12 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
         RemoteViews row=
                 new RemoteViews(ctxt.getPackageName(), R.layout.row);
 
-        row.setTextViewText(android.R.id.text1, thoseItems.get(i).getName());
+        row.setTextViewText(android.R.id.text1, countries.get(i).getName());
 
         Intent intent=new Intent();
         Bundle extras=new Bundle();
 
-        extras.putString(OurWidgetProvider.EXTRA_WORD, thoseItems.get(i).getName());
+        extras.putString(OurWidgetProvider.EXTRA_WORD, countries.get(i).getName());
         extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         intent.putExtras(extras);
         row.setOnClickFillInIntent(android.R.id.text1, intent);
@@ -74,13 +74,11 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public RemoteViews getLoadingView() {
-        Timber.i("");
         return null;
     }
 
     @Override
     public int getViewTypeCount() {
-        Timber.i("");
         return 1;
     }
 

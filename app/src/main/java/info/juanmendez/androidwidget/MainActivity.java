@@ -27,9 +27,8 @@ public class MainActivity extends AppCompatActivity {
     Button submit;
     EditText desiredValue;
 
-
     @Inject
-    RealmList<Country> thoseItems;
+    RealmList<Country> countries;
 
     @Inject
     RealmProvider realmProvider;
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 thisRealm.copyToRealm( new Country(nextId, desiredValue.getText().toString()) );
             }, () -> {
                 RealmResults<Country> countries = realm.where(Country.class).findAll();
-                RealmUtils.cloneToRealmList( countries, thoseItems );
+                RealmUtils.cloneToRealmList( countries, this.countries);
                 appWidgetManager.notifyAppWidgetViewDataChanged( widgetIds, R.id.listView );
             }, error -> {
                 Timber.e( error.getMessage() );
