@@ -29,7 +29,7 @@ public class RealmProvider {
                 .name("info.juanmendez.widget_db")
                 .build();
 
-        Realm.deleteRealm(realmConfiguration);
+        //Realm.deleteRealm(realmConfiguration);
         Realm.setDefaultConfiguration(realmConfiguration);
         realm = Realm.getDefaultInstance();
     }

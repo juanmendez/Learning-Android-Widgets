@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="new string to list"
+        android:hint="new country to list"
         android:inputType="text" />
 
     <Button

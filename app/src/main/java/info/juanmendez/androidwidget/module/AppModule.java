@@ -4,9 +4,12 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import info.juanmendez.androidwidget.dependencies.RealmProvider;
 import info.juanmendez.androidwidget.models.Country;
 import info.juanmendez.androidwidget.WidgetApp;
+import info.juanmendez.androidwidget.utils.RealmUtils;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 
 /**
  * Created by Juan Mendez on 5/10/2017.
@@ -30,7 +33,12 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public RealmList<Country> getItems(){
-        return new RealmList<>();
+    public RealmList<Country> getItems(RealmProvider realmProvider){
+        RealmList<Country> list = new RealmList<>();
+
+        RealmResults<Country> countries = realmProvider.getRealm().where(Country.class).findAll();
+        RealmUtils.cloneToRealmList( countries, list );
+
+        return list;
     }
 }

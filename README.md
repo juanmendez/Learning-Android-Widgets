@@ -1,7 +1,10 @@
 Widgets with listViews updated by MainActivity
 ---------------------
 
-- Initially the list of strings was part of Application
-- Dagger2 was used to include the list as a dependency which is then accesible from Activity and WidgetFactory.
-- MainActivity only calls `appWidgetManager.notifyAppWidgetViewDataChanged( widgetIds, R.id.listView )` and that refreshes each list instead of recreating the layout.
+- Dagger2 helps with providing dependencies to the widget and the activity
+- Realm is used to store items
+- RealmResults are switch to RealmLists, and clones each realmModel to solve thread issues.
+- Changes happening from Activity update listViews in widgets
 
+![Activity form](/attachment/activity.png)
+![Widget](/attachment/widget.png)
