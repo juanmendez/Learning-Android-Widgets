@@ -15,7 +15,7 @@ import android.widget.RemoteViews;
  */
 public class OurWidgetProvider extends AppWidgetProvider {
 
-    public static String EXTRA_WORD= "com.commonsware.android.appwidget.lorem.WORD";
+    public static String COUNTRY_PICKED = "info.juanmendez.android.appwidget.COUNTRY_PICKED";
 
 
     @Override
@@ -29,12 +29,13 @@ public class OurWidgetProvider extends AppWidgetProvider {
 
     private void updateWidget( Context ctxt, AppWidgetManager appWidgetManager, int appWidgetId ){
 
-        Intent clickIntent = new Intent(ctxt, MainActivity.class);
-        PendingIntent clickPI = PendingIntent.getActivity(ctxt, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Intent serviceIntent;
+        Intent serviceIntent, clickIntent;
+        PendingIntent clickPI;
 
         if( appWidgetId > 0 ){
+
+            clickIntent = new Intent(ctxt, MainActivity.class);
+            clickPI = PendingIntent.getActivity(ctxt, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             serviceIntent = new Intent(ctxt, WidgetService.class);
             serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);

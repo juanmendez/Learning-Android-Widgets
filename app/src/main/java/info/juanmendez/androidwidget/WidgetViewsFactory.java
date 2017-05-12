@@ -64,7 +64,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
         Intent intent=new Intent();
         Bundle extras=new Bundle();
 
-        extras.putString(OurWidgetProvider.EXTRA_WORD, countries.get(i).getName());
+        extras.putString(OurWidgetProvider.COUNTRY_PICKED, countries.get(i).getName());
         extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         intent.putExtras(extras);
         row.setOnClickFillInIntent(android.R.id.text1, intent);

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         WidgetApp.getAppComponent().inject( this );
 
 
-        String word=getIntent().getStringExtra(OurWidgetProvider.EXTRA_WORD);
+        String word=getIntent().getStringExtra(OurWidgetProvider.COUNTRY_PICKED);
 
         if (word != null) {
             Toast.makeText(this, "received: " + word, Toast.LENGTH_LONG ).show();
