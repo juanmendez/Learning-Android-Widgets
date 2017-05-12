@@ -9,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
  * contact@juanmendez.info
  */
 
-public class Country extends RealmObject implements RealmClonable{
+public class Country extends RealmObject implements RealmClonable<Country>{
 
     @PrimaryKey
     private int id;
@@ -32,9 +32,9 @@ public class Country extends RealmObject implements RealmClonable{
     public String getName() {
         return name;
     }
-
+    
     @Override
     public Country realmClone() {
-        return new Country( id, name);
+        return null;
     }
 }
