@@ -16,6 +16,7 @@ import android.widget.RemoteViews;
 public class OurWidgetProvider extends AppWidgetProvider {
 
     public static String COUNTRY_PICKED = "info.juanmendez.android.appwidget.COUNTRY_PICKED";
+    public static String COUNTRY_ID = "info.juanmendez.android.appwidget.COUNTRY_ID";
 
 
     @Override

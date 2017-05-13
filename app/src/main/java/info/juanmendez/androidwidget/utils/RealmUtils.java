@@ -18,14 +18,13 @@ public class RealmUtils {
      *
      * @param realmResults
      * @param realmList it gets cleared and populated with realmClonable objects
-     * @param <T>
+     * @param <T> T represent any class which implements RealmClonable
      */
-    public static <T extends RealmClonable> void cloneToRealmList(RealmResults<T> realmResults, RealmList<T> realmList ){
-
+    public static <T extends RealmClonable<T>> void cloneToRealmList(RealmResults<T> realmResults, RealmList<T> realmList ){
         realmList.clear();
 
         for( T realmModel: realmResults ){
-            realmList.add((T) realmModel.realmClone());
+            realmList.add(realmModel.realmClone());
         }
     }
 }
