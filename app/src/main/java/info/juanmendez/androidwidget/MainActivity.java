@@ -67,11 +67,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         String word=getIntent().getStringExtra(OurWidgetProvider.COUNTRY_PICKED);
-        int countryId = getIntent().getIntExtra(OurWidgetProvider.COUNTRY_ID, 0 );
+        int widgetid = getIntent().getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,0);
 
         if (word != null) {
-            Toast.makeText(this, "received: id: " + countryId + ", country-name:" + word, Toast.LENGTH_LONG ).show();
+            Toast.makeText(this, "received " + widgetid + " country-name:" + word, Toast.LENGTH_LONG ).show();
         }
     }
 }

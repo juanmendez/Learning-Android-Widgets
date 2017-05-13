@@ -62,10 +62,10 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
         row.setTextViewText(android.R.id.text1, countries.get(i).getName());
 
         Intent intent=new Intent();
+        intent.setAction("CountrySelected_" + System.currentTimeMillis());
         Bundle extras=new Bundle();
 
         extras.putString(OurWidgetProvider.COUNTRY_PICKED, countries.get(i).getName());
-        extras.putInt(OurWidgetProvider.COUNTRY_ID, countries.get(i).getId());
         extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         intent.putExtras(extras);
         row.setOnClickFillInIntent(android.R.id.text1, intent);
