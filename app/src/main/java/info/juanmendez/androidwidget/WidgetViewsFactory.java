@@ -62,6 +62,8 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
         row.setTextViewText(android.R.id.text1, countries.get(i).getName());
 
         Intent intent=new Intent();
+
+        //http://stackoverflow.com/questions/3140072/android-keeps-caching-my-intents-extras-how-to-declare-a-pending-intent-that-ke
         intent.setAction("CountrySelected_" + System.currentTimeMillis());
         Bundle extras=new Bundle();
 
