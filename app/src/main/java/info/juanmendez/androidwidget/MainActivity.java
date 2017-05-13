@@ -40,14 +40,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         WidgetApp.getAppComponent().inject( this );
 
-
-        String word=getIntent().getStringExtra(OurWidgetProvider.EXTRA_WORD);
-
-        if (word != null) {
-            Toast.makeText(this, "received: " + word, Toast.LENGTH_LONG ).show();
-        }
-
-
         submit = (Button) findViewById(R.id.submit);
         desiredValue = (EditText) findViewById(R.id.desiredValue);
 
@@ -71,5 +63,15 @@ public class MainActivity extends AppCompatActivity {
                 Timber.e( error.getMessage() );
             });
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String word=getIntent().getStringExtra(OurWidgetProvider.EXTRA_WORD);
+
+        if (word != null) {
+            Toast.makeText(this, "received: " + word, Toast.LENGTH_LONG ).show();
+        }
     }
 }
