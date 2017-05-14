@@ -25,7 +25,8 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity {
 
     Button submit;
-    EditText desiredValue;
+    EditText countryText;
+    EditText favCountryText;
 
     @Inject
     RealmList<Country> countries;
@@ -40,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
         WidgetApp.getAppComponent().inject( this );
 
         submit = (Button) findViewById(R.id.submit);
-        desiredValue = (EditText) findViewById(R.id.desiredValue);
+        countryText = (EditText) findViewById(R.id.countryText);
+        favCountryText = (EditText) findViewById(R.id.favCountryText);
 
         ComponentName componentName = new ComponentName( this, OurWidgetProvider.class);
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
@@ -52,15 +54,30 @@ public class MainActivity extends AppCompatActivity {
             int nextId = MainActivity.this.realmProvider.getNextPrimaryKey(Country.class, "id" );
             Realm realm = MainActivity.this.realmProvider.getRealm();
 
-            realm.executeTransactionAsync(thisRealm -> {
-                thisRealm.copyToRealm( new Country(nextId, desiredValue.getText().toString()) );
-            }, () -> {
-                RealmResults<Country> countries = realm.where(Country.class).findAll();
-                RealmUtils.cloneToRealmList( countries, this.countries);
-                appWidgetManager.notifyAppWidgetViewDataChanged( widgetIds, R.id.listView );
-            }, error -> {
-                Timber.e( error.getMessage() );
-            });
+            if( !countryText.getText().toString().isEmpty() ){
+                realm.executeTransactionAsync(thisRealm -> {
+                    thisRealm.copyToRealm( new Country(nextId, countryText.getText().toString()) );
+                }, () -> {
+                    RealmResults<Country> countries = realm.where(Country.class).findAll();
+                    RealmUtils.cloneToRealmList( countries, this.countries);
+                    appWidgetManager.notifyAppWidgetViewDataChanged( widgetIds, R.id.listView );
+                }, error -> {
+                    Timber.e( error.getMessage() );
+                });
+            }
+
+            if( !favCountryText.getText().toString().isEmpty() ){
+                realm.executeTransactionAsync(thisRealm -> {
+                    thisRealm.copyToRealm( new Country(nextId, countryText.getText().toString()) );
+                }, () -> {
+                    RealmResults<Country> countries = realm.where(Country.class).findAll();
+                    RealmUtils.cloneToRealmList( countries, this.countries);
+                    appWidgetManager.notifyAppWidgetViewDataChanged( widgetIds, R.id.listView );
+                }, error -> {
+                    Timber.e( error.getMessage() );
+                });
+            }
+
         });
     }
 
