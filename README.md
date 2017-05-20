@@ -1,11 +1,10 @@
-Widgets with listViews updated by MainActivity
+Keeping database alive with widgets
 ---------------------
 
-- Dagger2 helps with providing dependencies to the widget and the activity
-- Realm is used to store items
-- Realm requires to use its data in the main thread, but cloning realmModels works for other threads.
-- Changes happening from Activity update listViews in widgets
-- Rebooting device shows the last state from the app's realm
+- Activity updates list of countries. 
+- It indicates WidgetViewsFactory to update its list
+- WidgetViewsFactory's country list is a dagger dependency which is a singleton so updates from Activity get it update automatically
+- Learn Realm and Dagger2
 
 ![Activity form](/readme/activity.png)
 ![Widget](/readme/widget.png)
