@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import javax.inject.Inject;
 
+import info.juanmendez.androidwidget.dependencies.RealmModels;
 import info.juanmendez.androidwidget.dependencies.RealmProvider;
 import info.juanmendez.androidwidget.models.Country;
 import info.juanmendez.androidwidget.models.FavCountry;
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     RealmProvider realmProvider;
+
+    @Inject
+    RealmModels realmModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 realm.executeTransactionAsync(thisRealm -> {
                     thisRealm.copyToRealm( new Country(nextId, countryText.getText().toString()) );
                 }, () -> {
+                    //we want to update the list once so all widgets use it.
+                    realmModels.getCountries();
+
                     appWidgetManager.notifyAppWidgetViewDataChanged( widgetIds, R.id.listView );
                 }, error -> {
                     Timber.e( error.getMessage() );
@@ -66,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 realm.executeTransactionAsync(thisRealm -> {
                     thisRealm.copyToRealmOrUpdate( new FavCountry(favCountryText.getText().toString()) );
                 }, () -> {
-                    Timber.i( "total number of favCountries " + realm.where(FavCountry.class).count() );
-
                     Intent intent = new Intent(MainActivity.this, OurWidgetProvider.class );
                     intent.putExtra( AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds );
                     sendBroadcast( intent );
