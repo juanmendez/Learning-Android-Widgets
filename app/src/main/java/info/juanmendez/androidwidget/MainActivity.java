@@ -2,6 +2,7 @@ package info.juanmendez.androidwidget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import javax.inject.Inject;
 
 import info.juanmendez.androidwidget.dependencies.RealmProvider;
 import info.juanmendez.androidwidget.models.Country;
+import info.juanmendez.androidwidget.models.FavCountry;
 import info.juanmendez.androidwidget.utils.RealmUtils;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         ComponentName componentName = new ComponentName( this, OurWidgetProvider.class);
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
 
+        FavCountry  favCountry = realmProvider.getRealm().where( FavCountry.class ).findFirst();
+
         submit.setOnClickListener(view -> {
 
             int[] widgetIds = appWidgetManager.getAppWidgetIds(componentName);
@@ -68,16 +72,17 @@ public class MainActivity extends AppCompatActivity {
 
             if( !favCountryText.getText().toString().isEmpty() ){
                 realm.executeTransactionAsync(thisRealm -> {
-                    thisRealm.copyToRealm( new Country(nextId, countryText.getText().toString()) );
+                    thisRealm.copyToRealmOrUpdate( new FavCountry(favCountryText.getText().toString()) );
                 }, () -> {
-                    RealmResults<Country> countries = realm.where(Country.class).findAll();
-                    RealmUtils.cloneToRealmList( countries, this.countries);
-                    appWidgetManager.notifyAppWidgetViewDataChanged( widgetIds, R.id.listView );
+                    Timber.i( "total number of favCountries " + realm.where(FavCountry.class).count() );
+
+                    Intent intent = new Intent(MainActivity.this, OurWidgetProvider.class );
+                    intent.putExtra( AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds );
+                    sendBroadcast( intent );
                 }, error -> {
                     Timber.e( error.getMessage() );
                 });
             }
-
         });
     }
 

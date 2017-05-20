@@ -29,6 +29,8 @@
         <service
             android:name="WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+        <service android:name=".RefreshWidgetService"/>
     </application>
 
 </manifest>

@@ -4,9 +4,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import info.juanmendez.androidwidget.WidgetApp;
 import info.juanmendez.androidwidget.dependencies.RealmProvider;
 import info.juanmendez.androidwidget.models.Country;
-import info.juanmendez.androidwidget.WidgetApp;
+import info.juanmendez.androidwidget.models.FavCountry;
 import info.juanmendez.androidwidget.utils.RealmUtils;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -33,12 +34,33 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public RealmList<Country> getItems(RealmProvider realmProvider){
+    public RealmList<Country> providesCountries(RealmProvider realmProvider){
         RealmList<Country> list = new RealmList<>();
 
-        RealmResults<Country> countries = realmProvider.getRealm().where(Country.class).findAll();
-        RealmUtils.cloneToRealmList( countries, list );
+        if( realmProvider.getRealm() != null ){
+
+            RealmResults<Country> countries  = realmProvider.getRealm().where(Country.class).findAll();
+
+            if( countries != null ){
+                RealmUtils.cloneToRealmList( countries, list );
+            }
+
+        }
 
         return list;
+    }
+
+    @Provides
+    @Singleton
+    public FavCountry provideFavoriteCountry(RealmProvider realmProvider){
+
+        FavCountry country = realmProvider.getRealm().where( FavCountry.class ).findFirst();
+
+        //wait a minute, the table can be empty
+        if( country == null ){
+            country = new FavCountry("");
+        }
+
+        return country;
     }
 }

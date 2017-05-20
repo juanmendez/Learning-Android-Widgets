@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import info.juanmendez.androidwidget.MainActivity;
+import info.juanmendez.androidwidget.OurWidgetProvider;
 import info.juanmendez.androidwidget.WidgetViewsFactory;
 
 /**
@@ -16,5 +17,6 @@ import info.juanmendez.androidwidget.WidgetViewsFactory;
 @Component(modules = {AppModule.class})
 public interface AppComponent {
     void inject(MainActivity activity );
+    void inject(OurWidgetProvider widgetProvider );
     void inject(WidgetViewsFactory widgetViewsFactory);
 }

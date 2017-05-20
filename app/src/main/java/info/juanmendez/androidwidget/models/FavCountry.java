@@ -11,12 +11,12 @@ import io.realm.annotations.PrimaryKey;
 
 public class FavCountry extends RealmObject implements RealmClonable<FavCountry> {
     @PrimaryKey
-    private int id;
+    private int favId;
 
     private String name;
 
     public FavCountry(String country) {
-        this.id = 1;
+        this.favId = 1;
         this.name = country;
     }
 
@@ -24,8 +24,8 @@ public class FavCountry extends RealmObject implements RealmClonable<FavCountry>
         super();
     }
 
-    public int getId() {
-        return id;
+    public int getFavId() {
+        return favId;
     }
 
     public String getName() {
