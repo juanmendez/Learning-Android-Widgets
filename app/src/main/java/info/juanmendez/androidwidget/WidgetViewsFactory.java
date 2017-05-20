@@ -9,6 +9,7 @@ import android.widget.RemoteViewsService;
 
 import javax.inject.Inject;
 
+import info.juanmendez.androidwidget.dependencies.RealmModels;
 import info.juanmendez.androidwidget.models.Country;
 import io.realm.RealmList;
 import timber.log.Timber;
@@ -25,13 +26,17 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
     private int widgetId;
 
     @Inject
-    RealmList<Country> countries;
+    RealmModels realmModels;
+
+    private RealmList<Country> countries;
 
     public WidgetViewsFactory(Context ctxt, Intent intent) {
         this.ctxt = ctxt;
 
         WidgetApp.getAppComponent().inject( this );
         widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+
+        countries = realmModels.getCountries();
     }
 
     @Override

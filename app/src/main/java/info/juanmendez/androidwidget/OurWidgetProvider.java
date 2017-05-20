@@ -10,6 +10,7 @@ import android.widget.RemoteViews;
 
 import javax.inject.Inject;
 
+import info.juanmendez.androidwidget.dependencies.RealmModels;
 import info.juanmendez.androidwidget.models.FavCountry;
 import timber.log.Timber;
 
@@ -23,7 +24,7 @@ public class OurWidgetProvider extends AppWidgetProvider {
     public static String COUNTRY_PICKED = "info.juanmendez.android.appwidget.COUNTRY_PICKED";
 
     @Inject
-    FavCountry favCountry;
+    RealmModels realmModels;
 
     public OurWidgetProvider() {
         Timber.i( "constructor");
@@ -38,19 +39,8 @@ public class OurWidgetProvider extends AppWidgetProvider {
 
             int[] widget_ids = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
 
-            String favoriteCountry = "";
-
-            if( favCountry != null ){
-                favoriteCountry = favCountry.getName();
-            }
-
-            if( !favoriteCountry.isEmpty() && widget_ids != null ){
-                Timber.i( "fav country " + favoriteCountry);
-
-                for( int widget_id: widget_ids){
-                    Timber.i( "udpate widget " + widget_id );
-                    updateWidget( context, AppWidgetManager.getInstance(context), widget_id, favoriteCountry );
-                }
+            for( int widget_id: widget_ids){
+                updateWidget( context, AppWidgetManager.getInstance(context), widget_id );
             }
         }
         else {
@@ -63,25 +53,21 @@ public class OurWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context ctxt, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
-
         Timber.i( "widgetProvider.onUpdate");
-        String favCountryName = "";
-
-        if( favCountry != null ){
-            favCountryName = favCountry.getName();
-        }
 
         for( int i = 0; i < appWidgetIds.length; i++ ) {
-            updateWidget( ctxt, appWidgetManager, appWidgetIds[i], favCountryName);
+            updateWidget( ctxt, appWidgetManager, appWidgetIds[i]);
         }
 
         super.onUpdate(ctxt, appWidgetManager, appWidgetIds);
     }
 
-    private void updateWidget( Context ctxt, AppWidgetManager appWidgetManager, int appWidgetId, String favoriteCountry ){
+    private void updateWidget( Context ctxt, AppWidgetManager appWidgetManager, int appWidgetId ){
 
         Intent serviceIntent, clickIntent;
         PendingIntent clickPI;
+
+        FavCountry favCountry = realmModels.getFavoriteCountry();
 
         if( appWidgetId > 0 ){
 
@@ -96,7 +82,11 @@ public class OurWidgetProvider extends AppWidgetProvider {
 
             widget.setRemoteAdapter(R.id.listView, serviceIntent);
             widget.setPendingIntentTemplate(R.id.listView, clickPI);
-            widget.setTextViewText(R.id.favoriteCountry, favoriteCountry );
+
+            if( favCountry != null ){
+                widget.setTextViewText(R.id.favoriteCountry, favCountry.getName() );
+            }
+
 
             appWidgetManager.updateAppWidget(appWidgetId, widget);
         }

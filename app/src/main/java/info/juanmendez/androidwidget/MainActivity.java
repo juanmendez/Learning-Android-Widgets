@@ -14,10 +14,7 @@ import javax.inject.Inject;
 import info.juanmendez.androidwidget.dependencies.RealmProvider;
 import info.juanmendez.androidwidget.models.Country;
 import info.juanmendez.androidwidget.models.FavCountry;
-import info.juanmendez.androidwidget.utils.RealmUtils;
 import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
 import timber.log.Timber;
 
 /**
@@ -29,9 +26,6 @@ public class MainActivity extends AppCompatActivity {
     Button submit;
     EditText countryText;
     EditText favCountryText;
-
-    @Inject
-    RealmList<Country> countries;
 
     @Inject
     RealmProvider realmProvider;
@@ -62,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 realm.executeTransactionAsync(thisRealm -> {
                     thisRealm.copyToRealm( new Country(nextId, countryText.getText().toString()) );
                 }, () -> {
-                    RealmResults<Country> countries = realm.where(Country.class).findAll();
-                    RealmUtils.cloneToRealmList( countries, this.countries);
                     appWidgetManager.notifyAppWidgetViewDataChanged( widgetIds, R.id.listView );
                 }, error -> {
                     Timber.e( error.getMessage() );

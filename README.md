@@ -1,11 +1,7 @@
-Widgets with listViews updated by MainActivity
+Using Dagger and Realm with Widgets
 ---------------------
 
-- Dagger2 helps with providing dependencies to the widget and the activity
-- Realm is used to store items
-- Realm requires to use its data in the main thread, but cloning realmModels works for other threads.
-- Changes happening from Activity update listViews in widgets
-- Rebooting device shows the last state from the app's realm
-
-![Activity form](/readme/activity.png)
-![Widget](/readme/widget.png)
+- Clone realmModels as your widgets are not running in main thread, and that causes issues
+- Dagger2 or any other DI can be used to have widgetProviders and widgetViewFactories connect with realm
+    - Dagger2 is annoying when it comes to describe errors
+- Widgets can be fun to work with yet I guess I need more desing skills as this demo widget is not that good looking.
