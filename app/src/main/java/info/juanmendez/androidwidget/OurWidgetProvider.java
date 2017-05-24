@@ -5,8 +5,11 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Color;
 import android.widget.RemoteViews;
+
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
+import com.mikepenz.iconics.IconicsDrawable;
 
 import javax.inject.Inject;
 
@@ -34,13 +37,16 @@ public class OurWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Timber.i( "WidgetProvider.onReceived ");
+
         if (intent.getAction() == null ) {
+
+            int color = intent.getIntExtra( IconService.COLOR, 0 );
+            Timber.i( "WidgetProvider.onReceived " + color );
 
             int[] widget_ids = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
 
             for( int widget_id: widget_ids){
-                updateWidget( context, AppWidgetManager.getInstance(context), widget_id );
+                updateWidget( context, AppWidgetManager.getInstance(context), widget_id, color );
             }
         }
         else {
@@ -56,14 +62,15 @@ public class OurWidgetProvider extends AppWidgetProvider {
         Timber.i( "widgetProvider.onUpdate");
 
         for( int i = 0; i < appWidgetIds.length; i++ ) {
-            updateWidget( ctxt, appWidgetManager, appWidgetIds[i]);
+            updateWidget( ctxt, appWidgetManager, appWidgetIds[i], 0);
         }
 
         super.onUpdate(ctxt, appWidgetManager, appWidgetIds);
     }
 
-    private void updateWidget( Context ctxt, AppWidgetManager appWidgetManager, int appWidgetId ){
+    private void updateWidget( Context ctxt, AppWidgetManager appWidgetManager, int appWidgetId, int tintColor ){
 
+        Timber.i( "update with color " + tintColor );
         Intent serviceIntent, clickIntent;
         PendingIntent clickPI;
 
@@ -71,24 +78,23 @@ public class OurWidgetProvider extends AppWidgetProvider {
 
         if( appWidgetId > 0 ){
 
-            clickIntent = new Intent(ctxt, MainActivity.class);
-            clickPI = PendingIntent.getActivity(ctxt, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            serviceIntent = new Intent(ctxt, WidgetService.class);
-            serviceIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            serviceIntent.setData(Uri.parse(serviceIntent.toUri(Intent.URI_INTENT_SCHEME)));
-
             RemoteViews widget = new RemoteViews(ctxt.getPackageName(), R.layout.widget_demo);
 
-            widget.setRemoteAdapter(R.id.listView, serviceIntent);
-            widget.setPendingIntentTemplate(R.id.listView, clickPI);
+            Intent i = new Intent( ctxt, IconService.class );
+            PendingIntent pi = PendingIntent.getService(ctxt, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            if( favCountry != null ){
-                widget.setTextViewText(R.id.favoriteCountry, favCountry.getName() );
-            }
+            IconicsDrawable iconsDrawable = new IconicsDrawable(ctxt)
+                    .icon(FontAwesome.Icon.faw_android)
+                    .color(tintColor!=0?tintColor:Color.BLACK)
+                    .sizeDp(24);
+
+            widget.setImageViewBitmap( R.id.walkingButton,iconsDrawable.toBitmap() );
+            widget.setOnClickPendingIntent( R.id.walkingButton, pi);
 
 
             appWidgetManager.updateAppWidget(appWidgetId, widget);
         }
     }
+
+
 }

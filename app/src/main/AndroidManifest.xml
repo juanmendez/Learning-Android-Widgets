@@ -26,11 +26,7 @@
                 android:resource="@xml/simple_widget_info" />
         </receiver>
 
-        <service
-            android:name="WidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
-
-        <service android:name=".RefreshWidgetService"/>
+        <service android:name=".IconService"/>
     </application>
 
 </manifest>

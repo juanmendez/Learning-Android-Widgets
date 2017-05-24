@@ -6,16 +6,14 @@
     android:background="#7F303F9F"
     android:padding="@dimen/widget_margin">
 
-    <TextView
-        android:id="@+id/favoriteCountry"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="14dp"
-        android:layout_marginTop="14dp"
-        android:textSize="24sp"
-        android:background="@color/colorAccent"/>
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" android:layout_weight="1"></ListView>
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/walkingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 </LinearLayout>
