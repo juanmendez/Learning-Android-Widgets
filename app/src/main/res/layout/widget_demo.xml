@@ -11,9 +11,24 @@
         android:layout_height="wrap_content">
 
         <ImageButton
-            android:id="@+id/walkingButton"
+            android:id="@+id/androidBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/appleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:id="@+id/linuxBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:id="@+id/windowBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </LinearLayout>
