@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import javax.inject.Inject;
 
 import info.juanmendez.androidwidget.dependencies.RealmProvider;
-import timber.log.Timber;
 
 
 /**
@@ -37,8 +36,6 @@ public class IconService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        Timber.i( "iconService");
 
         int iconSelected = intent.getIntExtra( IconWidgetProvider.ICON_PICKED, 0 );
 
