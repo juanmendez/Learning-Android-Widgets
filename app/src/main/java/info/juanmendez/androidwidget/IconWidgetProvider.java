@@ -40,7 +40,7 @@ public class IconWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-
+        Timber.i( "on receive: " + intent.getAction() );
         if (intent.getAction() == null ) {
 
             int[] widget_ids = intent.getIntArrayExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS);
@@ -48,10 +48,8 @@ public class IconWidgetProvider extends AppWidgetProvider {
             for( int widget_id: widget_ids){
                 updateWidget( context, AppWidgetManager.getInstance(context), widget_id, intent );
             }
-        }
-        else {
+        }else{
             super.onReceive(context, intent);
-            Timber.i( intent.getAction() );
         }
     }
 
