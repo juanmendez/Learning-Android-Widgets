@@ -8,7 +8,6 @@ import io.realm.annotations.PrimaryKey;
  * www.juanmendez.info
  * contact@juanmendez.info
  */
-
 public class Icon extends RealmObject implements RealmClonable<Icon> {
     @PrimaryKey
     private int id;

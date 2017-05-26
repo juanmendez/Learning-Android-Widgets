@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import javax.inject.Inject;
 
 import info.juanmendez.androidwidget.dependencies.RealmProvider;
+import info.juanmendez.androidwidget.models.Icon;
 
 
 /**
@@ -41,18 +42,22 @@ public class IconService extends Service {
 
         if( iconSelected != 0 ){
 
-            ComponentName componentName = new ComponentName( this, IconWidgetProvider.class);
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-            int[] widgetIds = appWidgetManager.getAppWidgetIds(componentName);
+            //save it..
+            realmProvider.getRealm().executeTransactionAsync(realm -> {
+               Icon icon = new Icon( iconSelected );
+                realm.copyToRealmOrUpdate( icon );
 
+            }, () -> {
+                ComponentName componentName = new ComponentName( this, IconWidgetProvider.class);
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+                int[] widgetIds = appWidgetManager.getAppWidgetIds(componentName);
 
-            Intent sendIntent = new Intent( this, IconWidgetProvider.class );
-            sendIntent.putExtra( AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds );
-            sendIntent.putExtra( IconWidgetProvider.ICON_PICKED, iconSelected );
-            sendBroadcast( sendIntent );
+                Intent sendIntent = new Intent( this, IconWidgetProvider.class );
+                sendIntent.putExtra( AppWidgetManager.EXTRA_APPWIDGET_IDS, widgetIds );
+                sendIntent.putExtra( IconWidgetProvider.ICON_PICKED, iconSelected );
+                sendBroadcast( sendIntent );
+            });
         }
-
-
 
         return START_REDELIVER_INTENT;
     }

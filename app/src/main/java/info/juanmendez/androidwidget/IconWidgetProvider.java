@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import info.juanmendez.androidwidget.dependencies.RealmModels;
+import info.juanmendez.androidwidget.models.Icon;
 import timber.log.Timber;
 
 /**
@@ -58,10 +59,16 @@ public class IconWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context ctxt, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 
-        Timber.i( "widgetProvider.onUpdate");
+        Icon icon = realmModels.getIcon();
+        Intent dummyIntent = new Intent();
+
+        //dummy intent is used to pass to updateWidget the icon stored in the database.
+        if( icon != null ){
+            dummyIntent.putExtra(ICON_PICKED, icon.getIconId() );
+        }
 
         for( int i = 0; i < appWidgetIds.length; i++ ) {
-            updateWidget( ctxt, appWidgetManager, appWidgetIds[i], null );
+            updateWidget( ctxt, appWidgetManager, appWidgetIds[i], dummyIntent );
         }
 
         super.onUpdate(ctxt, appWidgetManager, appWidgetIds);
@@ -90,7 +97,7 @@ public class IconWidgetProvider extends AppWidgetProvider {
 
                 i = new Intent( ctxt, IconService.class );
                 i.putExtra( ICON_PICKED, entry.getKey() );
-                i.setAction("Icon_Selected_" + entry.getKey());
+                i.setAction("Icon_Selected_" + entry.getKey() + "_" + + System.currentTimeMillis() );
 
                 pi = PendingIntent.getService(ctxt, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
