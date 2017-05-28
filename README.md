@@ -1,7 +1,7 @@
-Using Dagger and Realm with Widgets
+Making a widget update the database and change is reflected on it
 ---------------------
 
-- Clone realmModels as your widgets are not running in main thread, and that causes issues
-- Dagger2 or any other DI can be used to have widgetProviders and widgetViewFactories connect with realm
-    - Dagger2 is annoying when it comes to describe errors
-- Widgets can be fun to work with yet I guess I need more desing skills as this demo widget is not that good looking.
+- This branch shows a widget having four buttons you select either one of them and you are updating the database. Then you can reboot your device and see the last button selected.
+- We use a regular Service to update the database. The widget sets a pending intent with each button's information which is then used by the Service and updates the database and then broadcast to the widgets there has been an update.
+- The database has only one record which is set to be updated upon button selected. The record stores the button viewId.
+- This is extra, I found [Mike Penz' iconic library]()https://github.com/mikepenz/Android-Iconics) very helpfull to use iconic fonts for each button.
