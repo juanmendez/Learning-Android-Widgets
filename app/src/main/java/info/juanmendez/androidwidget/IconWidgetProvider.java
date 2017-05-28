@@ -112,7 +112,7 @@ public class IconWidgetProvider extends AppWidgetProvider {
                 widget.setImageViewBitmap( entry.getKey(),iconsDrawable.toBitmap() );
                 widget.setOnClickPendingIntent( entry.getKey(), pi);
             }
-
+            
             appWidgetManager.updateAppWidget(appWidgetId, widget);
         }
     }
