@@ -7,27 +7,4 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/favCountryText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="What is your favorite country?"
-        android:inputType="text" />
-
-    <EditText
-        android:id="@+id/countryText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="new country to list"
-        android:inputType="text" />
-
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="submit" />
-
-
-
 </LinearLayout>
