@@ -35,6 +35,6 @@ public class Country extends RealmObject implements RealmClonable<Country>{
     
     @Override
     public Country realmClone() {
-        return null;
+        return new Country(id, name);
     }
 }
